@@ -1,7 +1,7 @@
 {
   "name": "miaow-livereload",
   "description": "Miaow的实时刷新工具",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "repository": "miaowjs/miaow-livereload",
   "author": {
     "name": "anhulife",
@@ -13,6 +13,7 @@
     "livereload"
   ],
   "dependencies": {
+    "miaow-util": "~0.4.0"
   },
   "devDependencies": {
   },

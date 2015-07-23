@@ -1,7 +1,10 @@
 var fs = require('fs');
+var mutil = require('miaow-util');
 var path = require('path');
 
-module.exports = function (option, cb) {
+var pkg = require('./package.json');
+
+module.exports = mutil.plugin(pkg.name, pkg.version, function (option, cb) {
 
   if (!this.liveReloadPort) {
     return cb();
@@ -35,4 +38,4 @@ module.exports = function (option, cb) {
   }
 
   cb();
-};
+});
