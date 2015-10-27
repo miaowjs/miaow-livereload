@@ -1,17 +1,17 @@
 var fs = require('fs');
-var mutil = require('miaow-util');
 var path = require('path');
 
 var pkg = require('./package.json');
 
-module.exports = mutil.plugin(pkg.name, pkg.version, function (option, cb) {
+module.exports = function(options, callback) {
+  var context = this;
 
-  if (!this.liveReloadPort) {
-    return cb();
+  if (!context.liveReloadPort) {
+    return callback();
   }
 
-  var defaultEnable = option.defaultEnable;
-  var placeholder = option.placeholder;
+  var defaultEnable = options.defaultEnable;
+  var placeholder = options.placeholder;
   var liveReloadScripts = [];
   var clientTpl = fs.readFileSync(path.join(__dirname, './client.tpl'), {
     encoding: 'utf8'
@@ -23,19 +23,23 @@ module.exports = mutil.plugin(pkg.name, pkg.version, function (option, cb) {
   );
 
   liveReloadScripts.push('<script>');
-  liveReloadScripts.push('window.__miaowLiveReloadPort__ = ' + this.liveReloadPort + ';');
-  liveReloadScripts.push('window.__miaowLiveReloadSrcPath__ = "' + this.srcPath + '";');
-  liveReloadScripts.push('window.__miaowLiveReloadTime__ = ' + new Date().getTime() + ';');
+  liveReloadScripts.push('window.__miaowLiveReloadPort__ = ' + context.liveReloadPort + ';');
+  liveReloadScripts.push('window.__miaowLiveReloadSrcPath__ = "' + context.srcPath + '";');
+  liveReloadScripts.push('window.__miaowLiveReloadTime__ = ' + context.startTime.getTime() + ';');
   liveReloadScripts.push(clientTpl);
   liveReloadScripts.push('</script>');
 
   liveReloadScripts = liveReloadScripts.join('\n');
 
   if (placeholder) {
-    this.contents = new Buffer(this.contents.toString().replace(placeholder, liveReloadScripts));
+    context.contents = new Buffer(context.contents.toString().replace(placeholder, liveReloadScripts));
   } else {
-    this.contents = new Buffer(this.contents.toString() + '\n' + liveReloadScripts);
+    context.contents = new Buffer(context.contents.toString() + '\n' + liveReloadScripts);
   }
 
-  cb();
-});
+  callback();
+};
+
+module.exports.toString = function() {
+  return [pkg.name, pkg.version].join('@');
+};

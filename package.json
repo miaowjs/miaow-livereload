@@ -1,7 +1,7 @@
 {
   "name": "miaow-livereload",
   "description": "Miaow的实时刷新工具",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "repository": "miaowjs/miaow-livereload",
   "author": {
     "name": "anhulife",
@@ -13,13 +13,11 @@
     "livereload"
   ],
   "dependencies": {
-    "miaow-util": "~0.6.1"
   },
   "devDependencies": {
   },
   "scripts": {
-    "postpublish": "cnpm sync miaow-livereload",
-    "test": "node ./node_modules/mocha/bin/mocha"
+    "postpublish": "cnpm sync miaow-livereload"
   },
   "engines": {
     "node": ">=0.10"
