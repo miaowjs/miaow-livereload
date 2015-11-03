@@ -18,7 +18,7 @@
       );
       client.onopen = function (event) {
         client.send(JSON.stringify({
-          srcPath: window.__miaowLiveReloadSrcPath__,
+          src: window.__miaowLiveReloadSrc__,
           timestamp: window.__miaowLiveReloadTime__
         }));
       };
@@ -50,7 +50,7 @@
       };
 
       var url = 'http://' + hostname + ':' + window.__miaowLiveReloadPort__ + '/livereload';
-      url += '?srcpath=' + encodeURIComponent(window.__miaowLiveReloadSrcPath__);
+      url += '?src=' + encodeURIComponent(window.__miaowLiveReloadSrc__);
       url += '&timestamp=' + window.__miaowLiveReloadTime__;
       url += '&callback=' + callbackName;
       url += '&cache=' + new Date().getTime();

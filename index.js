@@ -10,6 +10,8 @@ module.exports = function(options, callback) {
     return callback();
   }
 
+  context.cacheable = false;
+
   var defaultEnable = options.defaultEnable;
   var placeholder = options.placeholder;
   var liveReloadScripts = [];
@@ -24,7 +26,7 @@ module.exports = function(options, callback) {
 
   liveReloadScripts.push('<script>');
   liveReloadScripts.push('window.__miaowLiveReloadPort__ = ' + context.liveReloadPort + ';');
-  liveReloadScripts.push('window.__miaowLiveReloadSrcPath__ = "' + context.srcPath + '";');
+  liveReloadScripts.push('window.__miaowLiveReloadSrc__ = "' + context.src + '";');
   liveReloadScripts.push('window.__miaowLiveReloadTime__ = ' + context.startTime.getTime() + ';');
   liveReloadScripts.push(clientTpl);
   liveReloadScripts.push('</script>');
