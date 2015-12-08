@@ -10,8 +10,6 @@ module.exports = function(options, callback) {
     return callback();
   }
 
-  context.cacheable = false;
-
   var defaultEnable = options.defaultEnable;
   var placeholder = options.placeholder;
   var liveReloadScripts = [];
@@ -34,9 +32,15 @@ module.exports = function(options, callback) {
   liveReloadScripts = liveReloadScripts.join('\n');
 
   if (placeholder) {
-    context.contents = new Buffer(context.contents.toString().replace(placeholder, liveReloadScripts));
+    var contents = context.contents.toString();
+
+    if (contents.indexOf(placeholder) !== -1) {
+      context.contents = new Buffer(contents.replace(placeholder, liveReloadScripts));
+      context.cacheable = false;
+    }
   } else {
     context.contents = new Buffer(context.contents.toString() + '\n' + liveReloadScripts);
+    context.cacheable = false;
   }
 
   callback();
